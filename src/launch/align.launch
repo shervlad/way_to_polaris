@@ -1,0 +1,15 @@
+<launch>
+
+<rosparam command="load" file="$(find way_to_polaris)/src/launch/params.yaml"/>
+<env name="TURTLEBOT_SIMULATION" value="true"/>
+
+<!--include file="$(find turtlebot_bringup)/launch/minimal.launch"/-->
+<include file="$(find turtlebot_gazebo)/launch/turtlebot_world.launch"/>
+
+<node name="earth_transform_publisher" pkg="way_to_polaris" type="earth_transform_publisher.py"/>
+<node name="polaris_coords_publisher" pkg="way_to_polaris" type="polaris_coords_publisher.py"/>
+<node name="polaris_coords_transformer" pkg="way_to_polaris" type="polaris_coords_transformer.py"/>
+<!--<node name="align_with_polaris" pkg="way_to_polaris" type="align_with_polaris"/>-->
+
+
+</launch>
