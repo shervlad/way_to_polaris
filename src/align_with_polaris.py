@@ -20,9 +20,9 @@ def abs(n):
 def turn_to_polaris(ps, pub):
     x = ps.point.x
     y = ps.point.y
-    
-    turn = 1
-    th = (math.pi/2 - math.atan2(y,x))
+
+    turn = 0.5
+    th = math.atan2(y,x)
     target_turn = 0
 
     try:
@@ -39,7 +39,8 @@ def turn_to_polaris(ps, pub):
         twist = Twist()
         twist.linear.x = 0; twist.linear.y = 0; twist.linear.z = 0
         twist.angular.x = 0; twist.angular.y = 0; twist.angular.z = target_turn
-        rospy.loginfo("aligning with Polaris")
+        rospy.logdebug("aligning with Polaris")
+        rospy.logdebug("THETA: %s"%th)
         pub.publish(twist)
 
         #print("loop: {0}".format(count))
@@ -52,8 +53,8 @@ def turn_to_polaris(ps, pub):
 if __name__=="__main__":
     settings = termios.tcgetattr(sys.stdin)
 
-    rospy.init_node('align_with_polaris')
-    pub = rospy.Publisher('/cmd_vel_mux/input/navi', Twist, queue_size=20)
+    rospy.init_node('align_with_polaris', log_level=rospy.DEBUG)
+    pub = rospy.Publisher('/cmd_vel_mux/input/teleop', Twist, queue_size=20)
     sub = rospy.Subscriber('/polaris_base_link_coords', PointStamped, lambda ps: turn_to_polaris(ps,pub))
 
     rospy.spin()

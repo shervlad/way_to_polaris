@@ -4,6 +4,21 @@ import datetime
 import random
 from geometry_msgs.msg import Point, PointStamped
 from math import sin,cos,sqrt,acos,pi
+from numpy import deg2rad
+import numpy as np
+
+def to_odom_frame(p, latitude,longitude,r):
+    phi = deg2rad(90-latitude)
+    theta = longitude
+    xhat = np.array((-r*sin(theta)*sin(phi), r*cos(theta)*sin(phi),0))
+    yhat = np.array((r*cos(theta)*cos(phi), r*sin(theta)*cos(phi),-r*sin(phi)))
+    zhat = np.array((r*cos(theta)*sin(phi), r*sin(theta)*sin(phi), r*cos(phi)))
+    xhat = xhat / np.sqrt(np.sum(xhat**2))
+    yhat = yhat / np.sqrt(np.sum(yhat**2))
+    point = np.array(p)
+    m = np.array([xhat,yhat,zhat]).T
+
+    return np.dot(p,m)
 
 def publish_polaris_coords():
 
@@ -13,10 +28,12 @@ def publish_polaris_coords():
         defined by the intersection between the surface of the Earth and the line between polaris and the center of the Earth.
     """
 
-    pub            = rospy.Publisher('/polaris_coords',PointStamped, queue_size=20)
+    pub            = rospy.Publisher('/polaris_odom_coords',PointStamped, queue_size=20)
     rate           = rospy.Rate(100)
 
-    earth_radius   = rospy.get_param("earth_radius")
+    radius    = rospy.get_param("earth_radius")
+    latitude  = rospy.get_param("odom_latitude")
+    longitude = rospy.get_param("odom_longitude")
 
     #polaris celestial coordinates
     polaris_ra     = rospy.get_param('polaris_ra')
@@ -60,14 +77,15 @@ def publish_polaris_coords():
         rospy.logdebug("THETA_P :%s"%(theta_p*180/pi))
         rospy.logdebug("PHI_P :%s"%(phi_p*180/pi))
 
-        x_p = earth_radius*cos(theta_p)*sin(phi_p)
-        y_p = earth_radius*sin(theta_p)*sin(phi_p)
-        z_p = earth_radius*cos(phi_p)
+        x_p = radius*cos(theta_p)*sin(phi_p)
+        y_p = radius*sin(theta_p)*sin(phi_p)
+        z_p = radius*cos(phi_p)
 
+        p = to_odom_frame([x_p,y_p,z_p],latitude,longitude, radius)
         ps = PointStamped()
-        ps.header.frame_id = 'earth'
+        ps.header.frame_id = 'odom'
         ps.header.stamp = rospy.Time.now()
-        ps.point = Point(x_p,y_p,z_p)
+        ps.point = Point(*p)
         pub.publish(ps)
         rate.sleep()
 
