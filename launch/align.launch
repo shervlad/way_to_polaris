@@ -1,0 +1,12 @@
+<launch>
+
+<rosparam command="load" file="$(find way_to_polaris)/launch/params.yaml"/>
+<param name="/use_sim_time" value="true"/>
+
+<node name="earth_transform_publisher" pkg="way_to_polaris" type="earth_transform_publisher.py"/>
+<node name="polaris_coords_publisher" pkg="way_to_polaris" type="polaris_coords_publisher.py"/>
+<node name="polaris_coords_transformer" pkg="way_to_polaris" type="polaris_coords_transformer.py"/>
+<node name="align_with_polaris" pkg="way_to_polaris" type="align_with_polaris.py"/>
+
+
+</launch>

@@ -14,8 +14,7 @@ def publish_polaris_coords():
     """
 
     pub            = rospy.Publisher('/polaris_coords',PointStamped, queue_size=20)
-    rospy.init_node('polaris_coords_publisher')
-    rate           = rospy.Rate(10)
+    rate           = rospy.Rate(2)
 
     earth_radius   = rospy.get_param("earth_radius")
 
@@ -64,12 +63,14 @@ def publish_polaris_coords():
 
         ps = PointStamped()
         ps.header.frame_id = 'earth'
+        ps.header.stamp = rospy.Time.now()
         ps.point = Point(x_p,y_p,z_p)
         pub.publish(ps)
         rate.sleep()
 
 
 if __name__ == '__main__':
+    rospy.init_node('polaris_coords_publisher')
     try:
         print('starting')
         publish_polaris_coords()

@@ -4,6 +4,7 @@ import rospy
 import tf2_ros
 import tf
 import tf_conversions
+from numpy import deg2rad
 
 if __name__ == '__main__':
 
@@ -15,14 +16,14 @@ if __name__ == '__main__':
     theta     = rospy.get_param("odom_z_rotation")
 
     br = tf.TransformBroadcaster()
-    rate = rospy.Rate(10.0)
+    rate = rospy.Rate(20)
 
-    q = tf_conversions.transformations.quaternion_from_euler(latitude, longitude, -theta)
+    q = tf_conversions.transformations.quaternion_from_euler(deg2rad(latitude), deg2rad(longitude), deg2rad(-theta))
 
     while not rospy.is_shutdown():
-        br.sendTransform((0.0, 0.0, -1.0*radius),
+        br.sendTransform((0.0, 0.0, -radius),
                          q,
                          rospy.Time.now(),
-                         "odom",
-                         "earth")
+                         "earth",
+                         "odom")
         rate.sleep()

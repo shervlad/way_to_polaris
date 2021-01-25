@@ -1,0 +1,7 @@
+earth_radius:    6371000
+polaris_ra:      2.53030416
+polaris_dec:     89.2641083
+
+odom_latitude:   45.0
+odom_longitude:  45.0
+odom_z_rotation: 90.0
