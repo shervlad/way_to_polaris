@@ -5,7 +5,7 @@
 
 First, [Install Docker](https://docs.docker.com/get-docker/)
 
-Next, donwload [this docker image](https://www.dropbox.com/s/8lb1agzvdhwhnm4/turtlebot_docker.tar?dl=0)
+Next, download [this docker image](https://www.dropbox.com/s/8lb1agzvdhwhnm4/turtlebot_docker.tar?dl=0)
 
 Navigate to the directory where you downloaded the docker image, open a terminal and run 
 
@@ -111,7 +111,7 @@ Align the turtlebot robot to point towards the North Star in the sky
   
 ### Setting:
 * The origin of our coordinate system is at the center of the Earth, with the z axis being aligned with the Earth's axis and the positive direction of the z axis corresponds to Earth's North. The x axis traverses through Meridian 0 and the y axis through the 90th maridian.
-* Given (lat,long), the origin of the /odom frame will be at (lat,long) with y pointing south, x - east and z - towards the center of the earth.
+* Given (lat,long), the origin of the /odom frame will be at (lat,long) with `y pointing Soth, x - west and z - up`.
 
 
 
