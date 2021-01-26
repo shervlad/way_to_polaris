@@ -7,6 +7,7 @@
 <node name="polaris_coords" pkg="way_to_polaris" type="polaris_coords.py"/>
 <node name="polaris_coords_transformer" pkg="way_to_polaris" type="polaris_coords_transformer.py"/>
 <node name="align_with_polaris" pkg="way_to_polaris" type="align_with_polaris.py"/>
+<node name="rviz_marker_publisher" pkg="way_to_polaris" type="rviz_marker_publisher.py"/>
 
 
 </launch>
