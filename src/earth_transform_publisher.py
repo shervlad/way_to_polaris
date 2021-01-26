@@ -9,6 +9,13 @@ from numpy import deg2rad
 
 if __name__ == '__main__':
 
+    """
+    this was a first attempt at defining a tf transform from earth to /odom frame by trying to 
+    avoid doing the math in polaris_coords.py and simply define the transform from /odom to earth
+    in terms of translation and rotation from /odom to earth and let tf do the inverse and give us earth->/odom
+    this proved fruitless and hard to debug and doing the math in polaris_coords.py turtned out to be a more 
+    intuitive way for me to transform from earth to /odom frame
+    """
     rospy.init_node('earth_transform_publisher')
 
     radius    = rospy.get_param("earth_radius")

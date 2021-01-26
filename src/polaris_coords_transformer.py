@@ -14,7 +14,6 @@ import numpy as np
 
 
 def handle_polaris_position(ps, pub, listener):
-    #try:
     (trans,rot) = listener.lookupTransform("/base_link", "/odom", rospy.Time(0));
     rot_m = quaternion_matrix(rot)
     trans_m = translation_matrix(trans)
@@ -28,16 +27,11 @@ def handle_polaris_position(ps, pub, listener):
     new_ps.header.frame_id = 'base_link'
     new_ps.header.stamp = rospy.Time.now()
     pub.publish(new_ps)
-    #except:
-    #    rospy.loginfo("COULD NOT TRANSFORM FROM earth to base_link")
-    #    pass
-    #pub.publish(bl_ps)
-
-
-
 
 if __name__=="__main__":
-
+    """
+    this node transforms points from /odom to /base_link and publishes on /polaris_base_link_coords
+    """
 
     rospy.init_node('polaris_coords_transformer', log_level=rospy.INFO)
 

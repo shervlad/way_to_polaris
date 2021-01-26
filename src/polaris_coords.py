@@ -10,11 +10,16 @@ import numpy as np
 def to_odom_frame(p, latitude,longitude,r):
     phi = deg2rad(90-latitude)
     theta = longitude
+    #the x axis of the /odom frame is defined by the derivative of r_hat with respect to theta.
     xhat = np.array((-r*sin(theta)*sin(phi), r*cos(theta)*sin(phi),0))
+    #the y axis of the /odom frame is defined by the derivative of r_hat with respect to phi
     yhat = np.array((r*cos(theta)*cos(phi), r*sin(theta)*cos(phi),-r*sin(phi)))
+    #the z axis of the /odom frame is defined by the  r_hat vector itself
     zhat = np.array((r*cos(theta)*sin(phi), r*sin(theta)*sin(phi), r*cos(phi)))
+    #normalize to make them unit vectors
     xhat = xhat / np.sqrt(np.sum(xhat**2))
     yhat = yhat / np.sqrt(np.sum(yhat**2))
+    zhat = zhat / np.sqrt(np.sum(zhat**2))
     point = np.array(p)
     m = np.array([xhat,yhat,zhat]).T
 
@@ -24,7 +29,7 @@ def publish_polaris_coords():
 
     """
         This node publishes the coordinates of the projection of polaris on Earth now.
-        More specifically, the 3D Cartesian coordinates x,y,z in the Earth Frame of the point
+        More specifically, the 3D Cartesian coordinates x,y,z in the /odom frame of the point
         defined by the intersection between the surface of the Earth and the line between polaris and the center of the Earth.
     """
 
