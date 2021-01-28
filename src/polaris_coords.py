@@ -9,7 +9,7 @@ import numpy as np
 
 def to_odom_frame(p, latitude,longitude,r):
     phi = deg2rad(90-latitude)
-    theta = longitude
+    theta = deg2rad(longitude)
     #the x axis of the /odom frame is defined by the derivative of r_hat with respect to theta.
     xhat = np.array((-r*sin(theta)*sin(phi), r*cos(theta)*sin(phi),0))
     #the y axis of the /odom frame is defined by the derivative of r_hat with respect to phi

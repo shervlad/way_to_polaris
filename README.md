@@ -124,3 +124,4 @@ the `polaris_coords.py` node is responsible for calculating the coordinates of t
 
 next, the `polaris_coords_transformer.py` node subsribes to `/polaris_odom_coords` and transforms the coordinates of the polaris projection into the `/base_link` frame and publishes on `/polaris_base_link_coords`. This gives us a vector from the center of the robot to the Polaris projection. Aligning the robot with Polaris essentially means nullifying the y component of this vector. The `align_with_polaris.py` node is responsible for reading from `/polaris_base_link_coords` and turning the robot so as to nullify the y component.
 
+Note: a cool feature of this approach is that by changing the polaris_ra and polaris_dec parameters in `launch/params.yaml` you can make the turtlebot align itself to any star.
