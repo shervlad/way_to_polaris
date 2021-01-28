@@ -16,14 +16,24 @@ def to_odom_frame(p, latitude,longitude,r):
     yhat = np.array((r*cos(theta)*cos(phi), r*sin(theta)*cos(phi),-r*sin(phi)))
     #the z axis of the /odom frame is defined by the  r_hat vector itself
     zhat = np.array((r*cos(theta)*sin(phi), r*sin(theta)*sin(phi), r*cos(phi)))
+
     #normalize to make them unit vectors
+
+    #handle special case at the poles
+    if(np.sqrt(np.sum(xhat**2)) == 0):
+        xhat = np.cross(yhat, zhat)
+
     xhat = xhat / np.sqrt(np.sum(xhat**2))
     yhat = yhat / np.sqrt(np.sum(yhat**2))
     zhat = zhat / np.sqrt(np.sum(zhat**2))
     point = np.array(p)
+
+    #r_hat = np.array((r*cos(theta)*sin(phi), r*sin(theta)*sin(phi), r*cos(phi)))
+    trans =  np.array((0,0,r))
+    #m = np.vstack((np.array([xhat,yhat,zhat,r_hat]).T, [0,0,0,1]))
     m = np.array([xhat,yhat,zhat]).T
 
-    return np.dot(p,m)
+    return np.dot(point,m)[:3] - trans
 
 def publish_polaris_coords():
 

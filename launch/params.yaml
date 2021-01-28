@@ -2,8 +2,8 @@ earth_radius:    6371000.0
 polaris_ra:      2.53030416
 polaris_dec:     89.2641083
 
-odom_latitude:   45.0
-odom_longitude:  45.0
+odom_latitude:   -45.0
+odom_longitude:  45
 odom_z_rotation: 0.0
 
 transform_tolerance: 4.0
